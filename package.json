@@ -1,14 +1,20 @@
 {
   "name": "cardknox-api-wrapper",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": ["cardknox", "wrapper", "credit card", "ach", "gateway", "api" ],
+  "author": {
+    "name": "Mayer Fried",
+    "email": "mayer@mayerfried.com",
+    "url": "https://github.com/mfried40"
   },
-  "keywords": [],
-  "author": "mfried40",
-  "license": "ISC",
-  "description": "",
+  "repository": "github:mfried40/cardknox-api-wrapper-node",
+  "license": "MIT",
+  "description": "A Node.js wrapper for the Cardknox Gateway API, simplifying the implementation and integration of secure payment processing.",
+  "bugs": {
+    "url": "https://github.com/mfried40/cardknox-api-wrapper-node/issues"
+  },
+  
   "devDependencies": {
     "typescript": "^5.6.2"
   },
