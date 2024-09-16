@@ -16,8 +16,6 @@ export default class CardknoxService {
     };
     async Process(request: CardknoxRequest): Promise<CardknoxResponse> {
         this.populateCommonFields(request);
-        console.log("Request: ", request);
-    
         const res = await axios.post(CARDKNOX_URL, request);
         const response: CardknoxResponse = res.data;
         return response;
