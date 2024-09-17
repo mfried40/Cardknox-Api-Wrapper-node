@@ -8,8 +8,11 @@ A comprehensive Node.js wrapper for the [Cardknox Payment Gateway](https://www.c
 ![NPM](https://img.shields.io/npm/l/cardknox-api-wrapper?style=flat-square&logo=opensourceinitiative)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/cardknox-api-wrapper?style=flat-square&logo=npm)
 
-## Features
+## Overview
 
+The Cardknox API Wrapper for Node.js simplifies integration with the Cardknox Payment Gateway, allowing you to process credit card and ACH transactions securely. This package includes pre-built request classes for various transaction types like sales, refunds, and voids, making payment processing fast and reliable.
+
+## Features
 
 - **Fast and easy integration**: Get started quickly with a simple API.
 - **Pre-built request classes**: Simplified request classes for various transactions.
@@ -30,14 +33,14 @@ To get started, you'll need your Cardknox API key. This key will be added to all
 
 Here’s how to generate an API key:
 1. Sign in to the [Cardknox Merchant Portal](https://portal.cardknox.com/).
-2. Go to **Account Settings**.
+2. Go to **Cardknox Account Settings**.
 3. Select **Keys**, and then click **Create a Key**.
-4. Choose **API** or **iFields**, set the necessary permissions, and save the key securely.
+4. Choose **API**, set the necessary description and permissions, and save the key securely.
 
 Now, initialize `CardknoxService`:
 
 ```js
-const { CardknoxService } = require('cardknox-api-wrapper');
+import { CardknoxService } from 'cardknox-api-wrapper';
 
 const cardknox = new CardknoxService('your-api-key', 'your-software-name', 'your-software-version');
 ```
@@ -45,22 +48,28 @@ const cardknox = new CardknoxService('your-api-key', 'your-software-name', 'your
 ### Example: Processing a Credit Card Sale
 
 ```js
-const { CCSaleRequest } = require('cardknox-api-wrapper');
+import { CCSaleRequest } from 'cardknox-api-wrapper';
 
-const saleRequest = new CCSaleRequest();
-saleRequest.xCardNum = '4111111111111111';  // Card number
-saleRequest.xExp = '1225';  // Expiration date (MMYY)
-saleRequest.xAmount = '50.00';  // Transaction amount
+async function processCreditCardSale() {
+  try {
+    const saleRequest = new CCSaleRequest();
+    saleRequest.xCardNum = '4111111111111111';  // Card number
+    saleRequest.xExp = '1225';  // Expiration date (MMYY)
+    saleRequest.xAmount = '50.00';  // Transaction amount
 
-cardknox.Process(saleRequest)
-  .then(response => {
+    const response = await cardknox.Process(saleRequest);
+    
     if (response.xResult === 'A') {
       console.log('Payment Approved:', response.xAuthCode);
     } else {
       console.log('Payment Failed:', response.xError || response.xErrorCode);
     }
-  })
-  .catch(error => console.error('Transaction Error:', error));
+  } catch (error) {
+    console.error('Transaction Error:', error);
+  }
+}
+
+processCreditCardSale();
 ```
 
 ### Example: Processing an ACH Payment
@@ -68,23 +77,29 @@ cardknox.Process(saleRequest)
 For ACH payments, make sure to include the `xName` field along with routing and account numbers.
 
 ```js
-const { CheckSaleRequest } = require('cardknox-api-wrapper');
+import { CheckSaleRequest } from 'cardknox-api-wrapper';
 
-const achRequest = new CheckSaleRequest();
-achRequest.xRouting = '123456789';  // Routing number
-achRequest.xAccount = '987654321';  // Account number
-achRequest.xAmount = '100.00';  // Amount in USD
-achRequest.xName = 'John Doe';  // Name of the account holder
+async function processACHPayment() {
+  try {
+    const achRequest = new CheckSaleRequest();
+    achRequest.xRouting = '123456789';  // Routing number
+    achRequest.xAccount = '987654321';  // Account number
+    achRequest.xAmount = '100.00';  // Amount in USD
+    achRequest.xName = 'John Doe';  // Name of the account holder
 
-cardknox.Process(achRequest)
-  .then(response => {
+    const response = await cardknox.Process(achRequest);
+    
     if (response.xResult === 'A') {
       console.log('ACH Payment Approved:', response.xAuthCode);
     } else {
       console.log('Payment Failed:', response.xError);
     }
-  })
-  .catch(error => console.error('Transaction Error:', error));
+  } catch (error) {
+    console.error('Transaction Error:', error);
+  }
+}
+
+processACHPayment();
 ```
 
 ## Available Requests
@@ -135,6 +150,10 @@ For full details on the fields, commands, and additional transaction types, chec
 
 - [Credit Card API Documentation](https://docs.cardknox.com/api/transaction/credit-card)
 - [ACH API Documentation](https://docs.cardknox.com/api/transaction/check-ach)
+
+## Contributing
+
+Contributions are welcome! If you would like to contribute, feel free to open a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
