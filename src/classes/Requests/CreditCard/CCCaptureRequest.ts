@@ -3,7 +3,6 @@ import CardknoxRequest from "../CardknoxRequest";
 export default class CCCaptureRequest extends CardknoxRequest {
     readonly xCommand: string = "cc:capture";
     xAmount: string | undefined;
-    xCustom01: string | undefined;
     xCVV: string | undefined;
     xStreet: string | undefined;
     xZip: string | undefined;

@@ -10,5 +10,4 @@ export default class CCSaveRequest extends CardknoxRequest {
     xMagstripe: string | undefined;
     xIP: string | undefined;
     xCVV: string | undefined;
-    xCustom01: string | undefined;
 }

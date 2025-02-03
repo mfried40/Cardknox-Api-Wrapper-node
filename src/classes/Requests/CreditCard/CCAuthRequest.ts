@@ -6,7 +6,6 @@ export default class CCAuthRequest extends CardknoxRequest{
     xExp: string | undefined;
     xAmount: string | undefined;
     token: string | undefined;
-    xCustom01: string | undefined;
     xCVV: string | undefined;
     xStreet: string | undefined;
     xZip: string | undefined;

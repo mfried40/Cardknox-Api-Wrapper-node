@@ -8,7 +8,6 @@ export default class CCAvsOnlyRequest extends CardknoxRequest {
     xName: string | undefined;
     xStreet: string | undefined;
     xZip: string | undefined;
-    xCustom01: string | undefined;
     xMagstripe: string | undefined;
     xIP: string | undefined;
 }

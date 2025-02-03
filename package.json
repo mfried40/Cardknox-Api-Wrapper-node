@@ -2,6 +2,7 @@
   "name": "cardknox-api-wrapper",
   "version": "1.0.1",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "cardknox",
     "wrapper",
@@ -16,6 +17,10 @@
     "url": "https://github.com/mfried40"
   },
   "repository": "github:mfried40/cardknox-api-wrapper-node",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "build"
+  },
   "license": "MIT",
   "description": "A Node.js wrapper for the Cardknox Gateway API, simplifying the implementation and integration of secure payment processing.",
   "bugs": {
