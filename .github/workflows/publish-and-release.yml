@@ -5,11 +5,16 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false 
+
 jobs:
   build-publish-release:
+    # Explicit guard to prevent infinite loops from our own automated commits
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     
-    # Required to allow GitHub Actions to push commits/tags and create releases
     permissions:
       contents: write 
       
@@ -17,13 +22,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Fetches all history for all tags and branches (required for versioning)
           fetch-depth: 0 
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Change this to match your project's Node version
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
@@ -40,12 +44,8 @@ jobs:
       - name: Bump Version
         id: version
         run: |
-          # Automatically bumps the patch version (e.g., 1.0.0 -> 1.0.1)
-          # The [skip ci] prevents this commit from re-triggering the workflow
           npm version patch -m "chore(release): %s [skip ci]"
-          
-          # Extract the new version to use in the GitHub Release step
-          echo "NEW_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          echo "NEW_VERSION=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
 
       - name: Publish to npm
         run: npm publish
@@ -60,5 +60,4 @@ jobs:
         with:
           tag_name: v${{ env.NEW_VERSION }}
           name: Release v${{ env.NEW_VERSION }}
-          # Automatically generates release notes from your merged PRs
           generate_release_notes: true
