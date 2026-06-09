@@ -24,4 +24,8 @@ export default class CardknoxResponse {
     xReviewed: string = "";
     x3dsSubmitted: string = "";
     xIssuerResponseCode: string = "";
+    xMaskedAccountNumber: string = "";
+    xMID: string = "";
+    xTID: string = "";
+    xTip: string = "";
 }
