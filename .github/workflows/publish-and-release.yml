@@ -11,17 +11,13 @@ concurrency:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: read
+  contents: write     # Required to push commits and tags
 
 jobs:
   build-publish-release:
     # Explicit guard to prevent infinite loops from our own automated commits
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    runs-on: ubuntu-latest
-    
-    permissions:
-      contents: write 
-      
+    runs-on: ubuntu-latest      
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -54,7 +50,7 @@ jobs:
 
       - name: Publish to npm
         run: npm publish
-        
+
       - name: Push Version Commit and Tag
         run: git push --follow-tags
 
